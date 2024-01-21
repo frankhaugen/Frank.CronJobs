@@ -1,4 +1,5 @@
-﻿using Frank.CronJobs.Cron;
+﻿using System.Diagnostics;
+using Frank.CronJobs.Cron;
 using Frank.CronJobs.Jobs;
 using Frank.CronJobs.Options;
 using Frank.Reflection;
@@ -8,8 +9,6 @@ namespace Frank.CronJobs.DependencyInjection;
 
 internal sealed class CronJobsBuilder(IServiceCollection services, CronJobRunnerOptions options) : ICronJobsBuilder
 {
-    public ICronJobsBuilder AddCronJob<T>() where T : class, ICronJob => AddCronJob<T>("* * * * * *");
-
     public ICronJobsBuilder AddCronJob<T>(string cron) where T : class, ICronJob => AddCronJob<T>(new CronExpression(cron));
     
     public ICronJobsBuilder AddCronJob<T>(CronExpression cronExpression) where T : class, ICronJob => AddCronJob<T>(jobOptions =>
@@ -28,7 +27,7 @@ internal sealed class CronJobsBuilder(IServiceCollection services, CronJobRunner
     public ICronJobsBuilder AddCronJob<T>(CronJobOptions jobOptions) where T : class, ICronJob
     {
         var serviceName = typeof(T).GetDisplayName();
-        var service = new ServiceDescriptor(typeof(ICronJob), serviceName, typeof(T), ServiceLifetime.Singleton);
+        var service = new ServiceDescriptor(typeof(ICronJob), serviceName, typeof(T), ServiceLifetime.Scoped);
         jobOptions.Name = serviceName;
         
         options.Jobs.Add(jobOptions);
@@ -36,6 +35,4 @@ internal sealed class CronJobsBuilder(IServiceCollection services, CronJobRunner
         
         return this;
     }
-
-
 }

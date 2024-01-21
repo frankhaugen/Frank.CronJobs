@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Description>More or less a copy of the CronQuery project's Cron parts, as a separate library. This id a dependency of the CronJobs library, but it was separated out to allow it to be used for its excellent Cron parsing, without any nuget dependencies</Description>
+        <PackageTags>Cron, CronExpression, CronParser, CronQuery, CronJobs, CronJob, Parser, Expression, Schedule, Scheduling, ScheduleExpression, SchedulingExpression, ScheduleParser, SchedulingParser, ScheduleExpressionParser, SchedulingExpressionParser</PackageTags>
+    </PropertyGroup>
+
+</Project>

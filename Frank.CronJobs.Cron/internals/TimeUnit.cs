@@ -22,20 +22,29 @@
  * SOFTWARE.
  */
 
-namespace Frank.CronJobs.Extensions;
+namespace Frank.CronJobs.Cron.internals;
 
-internal static class Int32Extensions
+internal sealed class TimeUnit
 {
-    public static IEnumerable<int> Step(this IEnumerable<int> source, int step) 
-        => step == 0 ? source : source.Where((value, index) => index % step == 0);
-
-    public static IEnumerable<int> To(this int from, int to)
+    private TimeUnit(int minValue, int maxValue)
     {
-        if (from <= to)
-            while (from <= to)
-                yield return from++;
-        else
-            while (from >= to)
-                yield return from--;
+        MinValue = minValue;
+        MaxValue = maxValue;
     }
+
+    public int MinValue { get; private set; }
+    public int MaxValue { get; private set; }
+    public bool IsSecond { get; private set; }
+    public bool IsMinute { get; private set; }
+    public bool IsHour { get; private set; }
+    public bool IsDay { get; private set; }
+    public bool IsMonth { get; private set; }
+    public bool IsDayOfWeek { get; private set; }
+
+    public static TimeUnit Second => new TimeUnit(0, 59) { IsSecond = true };
+    public static TimeUnit Minute => new TimeUnit(0, 59) { IsMinute = true };
+    public static TimeUnit Hour => new TimeUnit(0, 23) { IsHour = true };
+    public static TimeUnit Day => new TimeUnit(1, 31) { IsDay = true };
+    public static TimeUnit Month => new TimeUnit(1, 12) { IsMonth = true };
+    public static TimeUnit DayOfWeek => new TimeUnit(0, 6) { IsDayOfWeek = true };
 }

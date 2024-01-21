@@ -22,9 +22,7 @@
  * SOFTWARE.
  */
 
-using Frank.CronJobs.Cron;
-
-namespace Frank.CronJobs.Extensions;
+namespace Frank.CronJobs.Cron.internals;
 
 internal static class DateTimeExtensions
 {

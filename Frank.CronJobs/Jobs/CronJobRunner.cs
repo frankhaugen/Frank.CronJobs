@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Frank.CronJobs.Cron;
 using Frank.CronJobs.Options;
@@ -55,13 +56,17 @@ public sealed class CronJobRunner : IHostedService
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var jobInstance = scope.ServiceProvider.GetRequiredKeyedService<ICronJob>(jobName);
+        
+        var stopwatch = Stopwatch.StartNew();
 
         try
         {
             await jobInstance.RunAsync();
+            stopwatch.Stop();
         }
         catch (Exception error)
         {
+            stopwatch.Stop();
             _logger.LogError(error, "Job '{ServiceTypeName}' failed during running", jobName);
         }
         finally
@@ -71,7 +76,7 @@ public sealed class CronJobRunner : IHostedService
             if (jobInstance is IAsyncDisposable asyncDisposable)
                 await asyncDisposable.DisposeAsync();
             
-            _logger.LogInformation("Job '{ServiceTypeName}' finished running", jobName);
+            _logger.LogDebug("Job '{ServiceTypeName}' finished running in {TimeElapsed}", jobName, stopwatch.Elapsed);
         }
     }
 
@@ -107,28 +112,28 @@ public sealed class CronJobRunner : IHostedService
         foreach (var timer in _timers)
             timer.Dispose();
         _timers.Clear();
-        _logger.LogInformation("Cron job runner stopped");
+        _logger.LogDebug("Cron job runner stopped");
     }
 
     private void Restart(CronJobRunnerOptions options)
     {
-        _logger.LogInformation("Restarting cron job runner");
+        _logger.LogWarning("Restarting cron job runner");
         _options = options;
         Stop();
         Start();
-        _logger.LogInformation("Cron job runner restarted");
+        _logger.LogWarning("Cron job runner restarted");
     }
 
     Task IHostedService.StartAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Starting cron job runner");
+        _logger.LogDebug("Starting cron job runner");
         Start();
         return Task.CompletedTask;
     }
 
     Task IHostedService.StopAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Stopping cron job runner");
+        _logger.LogWarning("Stopping cron job runner");
         Stop();
         return Task.CompletedTask;
     }

@@ -1,5 +1,8 @@
 ﻿namespace Frank.CronJobs.Options;
 
+/// <summary>
+/// Represents a collection of CronJobOptions.
+/// </summary>
 public sealed class CronJobOptionsCollection : List<CronJobOptions>
 {
     public void Replace(CronJobOptions cronJobOptions)

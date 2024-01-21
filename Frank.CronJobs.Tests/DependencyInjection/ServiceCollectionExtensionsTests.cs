@@ -1,21 +1,15 @@
 ﻿using Frank.CronJobs.DependencyInjection;
 using Frank.CronJobs.Jobs;
+using Frank.Testing.Logging;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
 namespace Frank.CronJobs.Tests.DependencyInjection;
 
-public class ServiceCollectionExtensionsTests
+public class ServiceCollectionExtensionsTests(ITestOutputHelper outputHelper)
 {
-    private readonly ITestOutputHelper _outputHelper;
-    public ServiceCollectionExtensionsTests(ITestOutputHelper outputHelper)
-    {
-        _outputHelper = outputHelper;
-    }
-
     [Fact]
     public async Task AddCronJob_WithCronExpression_ShouldRunAsync()
     {
@@ -31,7 +25,7 @@ public class ServiceCollectionExtensionsTests
             })
             .ConfigureServices((context, services) =>
             {
-                services.AddLogging(builder => builder.AddXunit(_outputHelper));
+                services.AddTestLogging(outputHelper);
                 services.AddCronJobs(context.Configuration, cronJobBuilder =>
                 {
                     cronJobBuilder.AddCronJob<MyService>(options =>
@@ -52,7 +46,7 @@ public class ServiceCollectionExtensionsTests
         await host.RunAsync(cancellationTokenSource.Token);
 
         // Assert
-        _outputHelper.WriteLine("Finished");
+        outputHelper.WriteLine("Finished");
     }
     
     private class MyService : ICronJob

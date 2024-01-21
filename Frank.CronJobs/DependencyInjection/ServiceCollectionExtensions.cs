@@ -29,8 +29,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Frank.CronJobs.DependencyInjection;
 
+/// <summary>
+/// Provides extension methods for the IServiceCollection class.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds cron jobs to the specified service collection using the provided configuration and builder action.
+    /// </summary>
+    /// <param name="services">The service collection to add the cron jobs to.</param>
+    /// <param name="configuration">The configuration containing the cron job options.</param>
+    /// <param name="builderAction">An action to configure the cron job builder.</param>
     public static void AddCronJobs(this IServiceCollection services, IConfiguration configuration, Action<ICronJobsBuilder> builderAction)
     {
         var options = new CronJobRunnerOptions();

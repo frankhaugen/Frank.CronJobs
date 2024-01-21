@@ -4,6 +4,9 @@ using Frank.CronJobs.Options;
 
 namespace Frank.CronJobs.DependencyInjection;
 
+/// <summary>
+/// Represents a builder for configuring cron jobs.
+/// </summary>
 public interface ICronJobsBuilder
 {
     /// <summary>

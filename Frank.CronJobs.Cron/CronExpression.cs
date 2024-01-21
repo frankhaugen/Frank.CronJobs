@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-using Frank.CronJobs.Extensions;
+using Frank.CronJobs.Cron.internals;
 
 namespace Frank.CronJobs.Cron;
 
@@ -41,7 +41,7 @@ public sealed class CronExpression
     {
         _expression = expression ?? throw new ArgumentNullException(nameof(expression));
         var subExpressions = expression.ToUpper().Split(' ');
-        var syntax = new CronSyntax(subExpressions);
+        var syntax = new internals.CronSyntax(subExpressions);
 
         IsValid = syntax.IsValid();
 

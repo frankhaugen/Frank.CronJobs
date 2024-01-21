@@ -24,7 +24,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Frank.CronJobs.Cron;
+namespace Frank.CronJobs.Cron.internals;
 
 internal sealed partial class CronSyntax(IEnumerable<string> expressions)
 {
@@ -67,7 +67,6 @@ internal sealed partial class CronSyntax(IEnumerable<string> expressions)
     {
         const string list = $@"^{ListValue}(,({ListValue}))*$";
         const string pattern = $@"{Asterisk}|{Dash}|{Hash}|{Slash}|{LAndW}|{list}";
-        // var regex = IsWellFormedRegex();
         var regex = new Regex(pattern, RegexOptions.Compiled);
         
         return expressions.All(exp => regex.IsMatch(exp));
@@ -75,7 +74,4 @@ internal sealed partial class CronSyntax(IEnumerable<string> expressions)
 
     [GeneratedRegex(@"\d")]
     private static partial Regex AllowedCharactersRegex();
-    
-    [GeneratedRegex(@"^\*$|^\d{1,2}-\d{1,2}$|^\d{1,2}#[1-5]$|^(\*|\d{1,2}(-\d{1,2})?)/\d{1,2}$|^(\d)?L$|L-\d{1,2}|^LW$|^\d{1,2}W$|^\d{1,2}|\d{1,2}-\d{1,2}|\d{1,2}(-\d{1,2})?/\d{1,2}(,(\d{1,2}|\d{1,2}-\d{1,2}|\d{1,2}(-\d{1,2})?/\d{1,2}))*$", RegexOptions.Compiled)]
-    private static partial Regex IsWellFormedRegex();
 }

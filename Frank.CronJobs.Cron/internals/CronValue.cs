@@ -23,9 +23,8 @@
  */
 
 using System.Text.RegularExpressions;
-using Frank.CronJobs.Extensions;
 
-namespace Frank.CronJobs.Cron;
+namespace Frank.CronJobs.Cron.internals;
 
 internal sealed class CronValue
 {
