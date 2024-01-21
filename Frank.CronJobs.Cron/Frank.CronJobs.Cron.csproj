@@ -5,10 +5,4 @@
         <PackageTags>Cron, CronExpression, CronParser, CronQuery, CronJobs, CronJob, Parser, Expression, Schedule, Scheduling, ScheduleExpression, SchedulingExpression, ScheduleParser, SchedulingParser, ScheduleExpressionParser, SchedulingExpressionParser</PackageTags>
     </PropertyGroup>
 
-    <ItemGroup>
-      <None Update="README.md">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
 </Project>
