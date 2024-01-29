@@ -22,13 +22,25 @@
  * SOFTWARE.
  */
 
-namespace Frank.CronJobs.Options;
+namespace Frank.CronJobs;
 
+/// <summary>
+/// Represents the options for a cron job.
+/// </summary>
 public sealed class CronJobOptions
 {
+    /// <summary>
+    /// Gets or sets a value indicating whether the cron job is currently running.
+    /// </summary>
     public bool Running { get; set; }
 
+    /// <summary>
+    /// Represents a unique identifier for the cron job.
+    /// </summary>
     public string Name { get; set; } = null!;
 
+    /// <summary>
+    /// Represents a Cron expression.
+    /// </summary>
     public string Cron { get; set; } = "* * * * * *";
 }

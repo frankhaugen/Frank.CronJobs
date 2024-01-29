@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-namespace Frank.CronJobs.Options;
+namespace Frank.CronJobs.Internals;
 
-public sealed class CronJobRunnerOptions
+internal sealed class CronJobRunnerOptions
 {
     public bool Running { get; set; }
 

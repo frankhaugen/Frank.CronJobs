@@ -136,8 +136,21 @@ public class PredefinedCronExpressions
         public const string ChristmasDay = "0 0 0 25 12 *";
 
         /// <summary>
+        /// Holds the cron expression for Christmas Eve.
+        /// </summary>
+        public const string ChristmasEve = "0 0 0 24 12 *";
+
+        /// <summary>
         /// Represents the cron expression for Halloween.
         /// </summary>
         public const string Halloween = "0 0 0 31 10 *";
+        
+        /// <summary>
+        /// Represents the cron expression for Thanksgiving.
+        /// </summary>
+        /// <remarks>
+        /// Thanksgiving is the fourth Thursday of November.
+        /// </remarks>
+        public const string Thanksgiving = "0 0 0 * 11 4";
     }
 }

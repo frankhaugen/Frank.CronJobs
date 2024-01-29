@@ -1,9 +1,9 @@
-﻿namespace Frank.CronJobs.Options;
+﻿namespace Frank.CronJobs.Internals;
 
 /// <summary>
 /// Represents a collection of CronJobOptions.
 /// </summary>
-public sealed class CronJobOptionsCollection : List<CronJobOptions>
+internal sealed class CronJobOptionsCollection : List<CronJobOptions>
 {
     public void Replace(CronJobOptions cronJobOptions)
     {

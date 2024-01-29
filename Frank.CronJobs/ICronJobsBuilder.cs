@@ -1,8 +1,6 @@
 ﻿using Frank.CronJobs.Cron;
-using Frank.CronJobs.Jobs;
-using Frank.CronJobs.Options;
 
-namespace Frank.CronJobs.DependencyInjection;
+namespace Frank.CronJobs;
 
 /// <summary>
 /// Represents a builder for configuring cron jobs.

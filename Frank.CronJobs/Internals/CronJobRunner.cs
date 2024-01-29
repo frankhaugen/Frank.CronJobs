@@ -25,15 +25,14 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Frank.CronJobs.Cron;
-using Frank.CronJobs.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Frank.CronJobs.Jobs;
+namespace Frank.CronJobs.Internals;
 
-public sealed class CronJobRunner : IHostedService
+internal sealed class CronJobRunner : IHostedService
 {
     private readonly List<IDisposable> _timers = [];
     private readonly IServiceScopeFactory _serviceScopeFactory;

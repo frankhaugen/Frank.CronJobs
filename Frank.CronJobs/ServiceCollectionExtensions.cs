@@ -22,12 +22,11 @@
  * SOFTWARE.
  */
 
-using Frank.CronJobs.Jobs;
-using Frank.CronJobs.Options;
+using Frank.CronJobs.Internals;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Frank.CronJobs.DependencyInjection;
+namespace Frank.CronJobs;
 
 /// <summary>
 /// Provides extension methods for the IServiceCollection class.

@@ -1,11 +1,8 @@
-﻿using System.Diagnostics;
-using Frank.CronJobs.Cron;
-using Frank.CronJobs.Jobs;
-using Frank.CronJobs.Options;
+﻿using Frank.CronJobs.Cron;
 using Frank.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Frank.CronJobs.DependencyInjection;
+namespace Frank.CronJobs.Internals;
 
 internal sealed class CronJobsBuilder(IServiceCollection services, CronJobRunnerOptions options) : ICronJobsBuilder
 {

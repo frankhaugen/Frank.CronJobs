@@ -26,6 +26,9 @@ using Frank.CronJobs.Cron.internals;
 
 namespace Frank.CronJobs.Cron;
 
+/// <summary>
+/// Represents a cron expression for scheduling jobs.
+/// </summary>
 public sealed class CronExpression
 {
     private readonly CronField _second = null!;
@@ -37,6 +40,9 @@ public sealed class CronExpression
     
     private readonly string _expression;
 
+    /// <summary>
+    /// Represents a cron expression for scheduling jobs.
+    /// </summary>
     public CronExpression(string expression)
     {
         _expression = expression ?? throw new ArgumentNullException(nameof(expression));
@@ -56,8 +62,20 @@ public sealed class CronExpression
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether the cron expression is valid.
+    /// </summary>
+    /// <remarks>
+    /// The cron expression is considered valid if it can be successfully parsed and all the cron fields are valid.
+    /// </remarks>
+    /// <value><c>true</c> if the cron expression is valid; otherwise, <c>false</c>.</value>
     public bool IsValid { get; }
 
+    /// <summary>
+    /// Calculates the next occurrence of a cron expression based on the provided query datetime.
+    /// </summary>
+    /// <param name="query">The query datetime to start calculating from.</param>
+    /// <returns>The next occurrence datetime based on the cron expression.</returns>
     public DateTime Next(DateTime query)
     {
         if (!IsValid || IsUnreachableCondition())

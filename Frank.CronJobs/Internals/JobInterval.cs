@@ -22,29 +22,37 @@
  * SOFTWARE.
  */
 
-using System.Text.RegularExpressions;
+using System.Reactive.Linq;
+using Frank.CronJobs.Cron;
 
-namespace Frank.CronJobs.Options;
+namespace Frank.CronJobs.Internals;
 
-public sealed partial class TimeZoneOptions(string timeZone)
+internal sealed class JobInterval(CronExpression cron, TimeZoneInfo timezone, Func<Task> work) : IDisposable
 {
-    public TimeZoneInfo ToTimeZoneInfo()
-    {
-        if (string.IsNullOrWhiteSpace(timeZone))
-            return TimeZoneInfo.Utc;
-        if (!UtcOffsetRegex().IsMatch(timeZone))
-            return TimeZoneInfo.FindSystemTimeZoneById(timeZone);
-        return TimeZoneInfo.CreateCustomTimeZone(
-            id: "CronQuery",
-            baseUtcOffset: TimeSpan.Parse(UtcOffsetFallbackRegex().Replace(timeZone, string.Empty)),
-            displayName: $"({timeZone}) CronQuery",
-            standardDisplayName: "CronQuery Custom Time"
-        );
-    }
+    private readonly CronExpression _cron = cron ?? throw new ArgumentNullException(nameof(cron));
+    private readonly TimeZoneInfo _timezone = timezone ?? throw new ArgumentNullException(nameof(timezone));
+    private readonly Func<Task> _work = work ?? throw new ArgumentNullException(nameof(work));
 
-    [GeneratedRegex(@"^UTC[+-]\d{2}:\d{2}$")]
-    private static partial Regex UtcOffsetRegex();
-    
-    [GeneratedRegex("UTC[+]?")]
-    private static partial Regex UtcOffsetFallbackRegex();
+    private IDisposable _subscription = null!;
+
+    public void Dispose() => _subscription.Dispose();
+
+    public void Run()
+    {
+        var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _timezone);
+        var nextTime = _cron.Next(now);
+
+        if (nextTime == DateTime.MinValue)
+            return;
+
+        var interval = nextTime - now;
+
+        _subscription = Observable.Timer(interval)
+            .Select(tick => Observable.FromAsync(_work))
+            .Concat()
+            .Subscribe(
+                onNext: tick => { /* noop */ },
+                onCompleted: Run
+            );
+    }
 }
