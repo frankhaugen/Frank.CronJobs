@@ -6,6 +6,30 @@
 public static class CronHelper
 {
     /// <summary>
+    /// Parses a cron expression and returns a CronExpression object.
+    /// </summary>
+    /// <param name="expression">The cron expression to parse.</param>
+    /// <returns>A CronExpression object representing the parsed cron expression.</returns>
+    public static CronExpression Parse(string expression) => new(expression);
+
+    /// <summary>
+    /// Tries to parse the provided cron expression and creates a CronExpression object if the expression is valid.
+    /// </summary>
+    /// <param name="expression">The cron expression to parse.</param>
+    /// <param name="cronExpression">When this method returns, contains the CronExpression object created from the parsed expression if the expression is valid; otherwise, contains null.</param>
+    /// <returns>Returns true if the cron expression was successfully parsed and created into a CronExpression object; otherwise, returns false.</returns>
+    public static bool TryParse(string expression, out CronExpression? cronExpression)
+    {
+        if (IsValid(expression))
+        {
+            cronExpression = new CronExpression(expression);
+            return true;
+        }
+        cronExpression = null;
+        return false;
+    }
+
+    /// <summary>
     /// Calculates the next occurrence of a cron expression based on the current UTC time.
     /// </summary>
     /// <param name="cronExpression">The cron expression string to be evaluated.</param>
