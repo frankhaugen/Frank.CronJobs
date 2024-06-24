@@ -11,16 +11,17 @@ Console.WriteLine("Hello, World!");
 var builder = new HostBuilder();
 builder.ConfigureLogging(logging =>
 {
-    logging.AddJsonConsole(options =>
-    {
-        options.JsonWriterOptions = new JsonWriterOptions
-        {
-            Indented = true,
-        };
-        options.IncludeScopes = true;
-        options.TimestampFormat = "yyyy-MM-dd HH:mm:ss.fff";
-        options.UseUtcTimestamp = true;
-    });
+    logging.AddDebug().AddConsole();
+    // logging.AddJsonConsole(options =>
+    // {
+    //     options.JsonWriterOptions = new JsonWriterOptions
+    //     {
+    //         Indented = true,
+    //     };
+    //     options.IncludeScopes = true;
+    //     options.TimestampFormat = "yyyy-MM-dd HH:mm:ss.fffffff";
+    //     options.UseUtcTimestamp = true;
+    // });
 });
 builder.ConfigureServices((context, services) =>
 {

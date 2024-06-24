@@ -2,7 +2,7 @@
 
 namespace Frank.CronJobs.Internals;
 
-internal  class CronJobDescriptor(Type type, string cronExpression, bool running, TimeZoneInfo timeZoneInfo) : ICronJobDescriptor
+internal class CronJobDescriptor(Type type, string cronExpression, bool running, TimeZoneInfo timeZoneInfo) : ICronJobDescriptor
 {
     public string Name { get; } = type.GetFullDisplayName();
     public string Schedule { get; set; } = cronExpression;

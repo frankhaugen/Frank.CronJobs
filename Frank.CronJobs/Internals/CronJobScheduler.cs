@@ -24,7 +24,7 @@ internal  class CronJobScheduler(IServiceScopeFactory serviceScopeFactory, ILogg
                 continue;
             }
             
-            logger.LogInformation("Starting cron job {DescriptorName}", descriptor.Name);
+            logger.LogDebug("Starting cron job {DescriptorName}", descriptor.Name);
             
             var jobInterval = new JobInterval(descriptor, () => ExecuteJobAsync(descriptor, cancellationToken), cancellationToken);
             _jobIntervals.Add(jobInterval);
@@ -47,6 +47,18 @@ internal  class CronJobScheduler(IServiceScopeFactory serviceScopeFactory, ILogg
         await Task.CompletedTask;
     }
 
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Stopping cron job scheduler...");
+        foreach (var jobInterval in _jobIntervals)
+        {
+            jobInterval.Dispose();
+        }
+        _jobIntervals.Clear();
+
+        return Task.CompletedTask;
+    }
+
     private async Task ExecuteJobAsync(ICronJobDescriptor descriptor, CancellationToken cancellationToken)
     {
         if (!descriptor.Running || !CronHelper.IsValid(descriptor.Schedule) || cancellationToken.IsCancellationRequested)
@@ -60,24 +72,12 @@ internal  class CronJobScheduler(IServiceScopeFactory serviceScopeFactory, ILogg
 
         try
         {
-            logger.LogInformation("Executing job {JobTypeName}", descriptor.Name);
+            logger.LogDebug("Executing job {JobTypeName}", descriptor.Name);
             await jobInstance.RunAsync(cancellationToken);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error executing job {JobTypeName}", descriptor.Name);
         }
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        logger.LogInformation("Stopping cron job scheduler...");
-        foreach (var jobInterval in _jobIntervals)
-        {
-            jobInterval.Dispose();
-        }
-        _jobIntervals.Clear();
-
-        return Task.CompletedTask;
     }
 }

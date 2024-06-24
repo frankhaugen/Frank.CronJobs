@@ -11,6 +11,8 @@ namespace Frank.CronJobs.Tests.ScheduleMaintainer;
 public class ScheduleMaintainerRestartJobTest(ITestOutputHelper outputHelper) : HostApplicationTestBase(outputHelper)
 {
     private readonly List<Version> _runVersions = new();
+    
+    private IServiceProvider Services => GetServices;
 
     /// <inheritdoc />
     protected override Task SetupAsync(HostApplicationBuilder builder)

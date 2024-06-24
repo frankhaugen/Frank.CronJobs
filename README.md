@@ -1,5 +1,12 @@
 # Frank.CronJobs
-This is based on CronQuery, which I am a contributor to. This is built on that code to extend its functionality in experimental ways
+
+A simple library for running jobs on a schedule using cron expressions. Also the cron part is reusable and can be used 
+standalone.
+
+This library is designed to be used with the `Microsoft.Extensions.DependencyInjection` library, and it is designed to be as 
+easy and simple to use as possible. It is also designed to be as flexible as possible.
+
+It is built on the [CronQuery](www.nuget.org/packages/CronQuery) library, but with a different API and approach.
 
 ___
 [![GitHub License](https://img.shields.io/github/license/frankhaugen/Frank.CronJobs)](LICENSE)
@@ -29,10 +36,21 @@ services.AddCronJob<MyJob>("0 15 10 * * ?");
 var serviceProvider = services.BuildServiceProvider();
 
 await serviceProvider.StartAsync();
+
+class MyJob : ICronJob
+{
+    public Task ExecuteAsync(CancellationToken cancellationToken)
+    {
+        Console.WriteLine("Hello, world!");
+        return Task.CompletedTask;
+    }
+}
 ```
 
 This will start the job at 10:15 AM every day. The `MyJob` class should implement the `ICronJob` interface, and the
 `ExecuteAsync` method should be implemented. This method will be called every time the cron expression is satisfied.
+
+## Advanced Usage
 
 If you want to stop or modify the job, you can use the `IScheuleMaintainer` interface to stop, start, or modify any job at 
 runtime like this:
@@ -50,7 +68,7 @@ The job runner is added as a hosted service, so it will run as long as the appli
 
 The scenario for editing the schedule at runtime is meant to make it flexible for the user to change the schedule of the
 job without having to restart the application, or specify the schedule in a configuration file, and so anything that can 
-have the opportunity y to change the schedule at runtime. A service that react to IOptions changes, for example, can 
+have the opportunity to change the schedule at runtime. A service that react to IOptions changes, for example, can 
 look like this:
 
 ```c#
@@ -74,7 +92,6 @@ public class MyService
 }
 ```
 
-
 ## Installation
 
 Install the NuGet package directly from the package manager console:
@@ -96,4 +113,8 @@ discussed and agreed upon in an issue first.
 ## Credits
 
 This library is based on [CronQuery](https://github.com/marxjmoura/cronquery), which I am a contributor to. This is built on 
-that code for the basic cron functionality, and some patterns and ideas are borrowed from that project.
+that code for the basic cron functionality, and some patterns and ideas are borrowed from that project. This is however a 
+separate implementation, and the code is not shared between the two projects. CronQuery has a lot longer history and is 
+better tested, so I recommend using that library if you need a more stable and tested library; I made this library because I 
+wanted to register the jobs in the DI container and its schedule at the same time, which is not possible with CronQuery nor 
+would I presume it would be a good idea to do so in that library. 
