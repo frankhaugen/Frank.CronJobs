@@ -1,0 +1,76 @@
+root = true
+
+# Global settings
+[*.{cs,vb}]
+
+# Set indent style and size
+indent_style = space
+indent_size = 4
+
+# Use LF line endings
+end_of_line = lf
+
+# Set UTF-8 character encoding
+charset = utf-8
+
+# Insert final newline
+insert_final_newline = true
+
+# Use modern language features
+dotnet_style_prefer_inferred_tuple_names = true:warning
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
+
+# Naming conventions
+dotnet_naming_rule.interface_should_be_prefixed_with_i.severity = warning
+dotnet_naming_rule.interface_should_be_prefixed_with_i.symbols = interfaces
+dotnet_naming_rule.interface_should_be_prefixed_with_i.style = prefix_i
+
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+dotnet_naming_symbols.interfaces.applicable_accessibilities = public, internal, protected, private
+dotnet_naming_symbols.interfaces.required_modifiers =
+
+dotnet_naming_style.prefix_i.required_prefix = I
+dotnet_naming_style.prefix_i.capitalization = pascal_case
+
+# Prefix for async methods
+dotnet_naming_rule.async_methods_should_have_async_suffix.severity = warning
+dotnet_naming_rule.async_methods_should_have_async_suffix.symbols = async_methods
+dotnet_naming_rule.async_methods_should_have_async_suffix.style = suffix_async
+
+dotnet_naming_symbols.async_methods.applicable_kinds = method
+dotnet_naming_symbols.async_methods.applicable_accessibilities = public, internal, protected, private
+dotnet_naming_symbols.async_methods.required_modifiers = async
+
+dotnet_naming_style.suffix_async.required_suffix = Async
+dotnet_naming_style.suffix_async.capitalization = pascal_case
+
+# File-scoped namespaces
+csharp_using_directive_placement = outside_namespace:error
+
+# Use expression-bodied members when possible
+csharp_style_expression_bodied_methods = true:warning
+csharp_style_expression_bodied_properties = true:warning
+csharp_style_expression_bodied_indexers = true:warning
+csharp_style_expression_bodied_accessors = true:warning
+
+# Prefer object and collection initializers
+dotnet_style_object_initializer = true: suggestion
+dotnet_style_collection_initializer = true: suggestion
+
+# Use pattern matching where possible
+csharp_style_pattern_matching_over_is_with_cast_check = true: suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true: suggestion
+csharp_style_inlined_variable_declaration = true: suggestion
+
+# Use switch expressions
+csharp_style_prefer_switch_expression = true: suggestion
+
+# Prefer simple 'using' statement
+csharp_prefer_simple_using_statement = true: suggestion
+
+# Enforce braces for all control statements
+csharp_prefer_braces = false:warning
+
+# NuGet analyzer settings
+dotnet_code_quality_unused_parameters = all:error
