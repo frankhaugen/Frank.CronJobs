@@ -5,16 +5,22 @@ namespace Frank.CronJobs.Internals;
 
 internal sealed class JobInterval(ICronJobDescriptor descriptor, Func<Task> work, CancellationToken cancellationToken) : IDisposable
 {
+    // The registration should be stored and disposed
+    private CancellationTokenRegistration _registration;
     private Timer? _timer;
 
     public void Dispose()
     {
         _timer?.Dispose();
+        _registration.Dispose();
     }
     
     [SuppressMessage("ReSharper", "TailRecursiveCall")]
     public void Run()
     {
+        // Dispose previous registration
+        _registration.Dispose();
+        
         var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, descriptor.TimeZoneInfo);
         var cronExpression = new CronExpression(descriptor.Schedule);
         var nextTime = cronExpression.Next(now);
@@ -46,7 +52,7 @@ internal sealed class JobInterval(ICronJobDescriptor descriptor, Func<Task> work
             Run();
         }, null, interval, Timeout.InfiniteTimeSpan); // Timeout.InfiniteTimeSpan prevents periodic signalling
         
-        cancellationToken.Register(() => _timer?.Dispose());
+        _registration = cancellationToken.Register(() => _timer?.Dispose());
     }
 
     public void Refresh(ICronJobDescriptor cronJobDescriptor)
