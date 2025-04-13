@@ -5,4 +5,11 @@
         <PackageTags>Cron, CronExpression, CronParser, CronQuery, CronJobs, CronJob, Parser, Expression, Schedule, Scheduling, ScheduleExpression, SchedulingExpression, ScheduleParser, SchedulingParser, ScheduleExpressionParser, SchedulingExpressionParser</PackageTags>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Update="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
 </Project>

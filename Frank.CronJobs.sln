@@ -20,8 +20,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.CronJobs.Tests", "Fra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.CronJobs.Cron", "Frank.CronJobs.Cron\Frank.CronJobs.Cron.csproj", "{B5F0B1C0-693F-4D3A-9426-EF362879437F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.CronJobs.SampleApp", "Frank.CronJobs.SampleApp\Frank.CronJobs.SampleApp.csproj", "{705728AA-3E92-4444-903E-21D7D9C8703A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,9 +41,5 @@ Global
 		{B5F0B1C0-693F-4D3A-9426-EF362879437F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5F0B1C0-693F-4D3A-9426-EF362879437F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5F0B1C0-693F-4D3A-9426-EF362879437F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{705728AA-3E92-4444-903E-21D7D9C8703A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{705728AA-3E92-4444-903E-21D7D9C8703A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{705728AA-3E92-4444-903E-21D7D9C8703A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{705728AA-3E92-4444-903E-21D7D9C8703A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,28 +1,38 @@
 ﻿using FluentAssertions;
 using Frank.CronJobs.Cron;
-using Frank.Testing.TestBases;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Xunit.Abstractions;
 
 namespace Frank.CronJobs.Tests.ScheduleMaintainer;
 
-public class ScheduleMaintainerRestartJobTest(ITestOutputHelper outputHelper) : HostApplicationTestBase(outputHelper)
+public class ScheduleMaintainerRestartJobTest
 {
     private readonly List<Version> _runVersions = new();
     
-    private IServiceProvider Services => GetServices;
+    private IHost _host = null!;
 
-    /// <inheritdoc />
-    protected override Task SetupAsync(HostApplicationBuilder builder)
+    [Before(HookType.Test)]
+    public void SetupHost()
     {
+        HostApplicationBuilder builder = Host.CreateApplicationBuilder();
         builder.Services.AddCronJob<MyRestartingService>(PredefinedCronExpressions.EverySecond);
         builder.Services.AddSingleton(_runVersions);
-        return Task.CompletedTask;
+        builder.Logging.AddDebug();
+        _host = builder.Build();
+        _host.StartAsync().GetAwaiter().GetResult();
     }
+    
+    [After(HookType.Test)]
+    public void DisposeHost()
+    {
+        _host.StopAsync().GetAwaiter().GetResult();
+        _host.Dispose();
+    }
+    
+    private IServiceProvider Services => _host.Services;
 
-    [Fact]
+    [Test]
     public async Task Test3()
     {
         await Task.Delay(1500);
@@ -32,7 +42,7 @@ public class ScheduleMaintainerRestartJobTest(ITestOutputHelper outputHelper) : 
         var maintainer = Services.GetRequiredService<IScheduleMaintainer>();
         maintainer.Start<MyRestartingService>();
         await Task.Delay(1000);
-        _runVersions.Should().HaveCountGreaterOrEqualTo(2);
+        _runVersions.Should().HaveCountGreaterThanOrEqualTo(2);
     }
     
     private class MyRestartingService(ILogger<MyRestartingService> logger, List<Version> runVersions, IScheduleMaintainer maintainer) : ICronJob

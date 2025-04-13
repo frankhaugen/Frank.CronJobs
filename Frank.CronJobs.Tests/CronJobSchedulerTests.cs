@@ -1,21 +1,31 @@
 ﻿using Frank.CronJobs.Cron;
-using Frank.Testing.TestBases;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Xunit.Abstractions;
 
 namespace Frank.CronJobs.Tests;
 
-public class CronJobSchedulerTests(ITestOutputHelper outputHelper) : HostApplicationTestBase(outputHelper)
+public class CronJobSchedulerTests
 {
-    /// <inheritdoc />
-    protected override Task SetupAsync(HostApplicationBuilder builder)
+    private IHost _host = null!;
+
+    [Before(HookType.Test)]
+    public void SetupHost()
     {
+        HostApplicationBuilder builder = Host.CreateApplicationBuilder();
         builder.Services.AddCronJob<MyService>(PredefinedCronExpressions.EverySecond);
-        return Task.CompletedTask;
+        builder.Logging.AddDebug();
+        _host = builder.Build();
+        _host.StartAsync().GetAwaiter().GetResult();
+    }
+    
+    [After(HookType.Test)]
+    public void DisposeHost()
+    {
+        _host.StopAsync().GetAwaiter().GetResult();
+        _host.Dispose();
     }
 
-    [Fact]
+    [Test]
     public async Task Test()
     {
         await Task.Delay(5000);
