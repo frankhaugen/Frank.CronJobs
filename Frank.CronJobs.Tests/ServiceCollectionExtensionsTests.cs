@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Frank.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
@@ -39,9 +39,6 @@ public class ServiceCollectionExtensionsTests
     
     public class MockCronJob : ICronJob
     {
-        public Task RunAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
+        public Task RunAsync(CancellationToken cancellationToken) => Task.CompletedTask;
     }
 }

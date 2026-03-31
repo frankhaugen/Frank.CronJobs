@@ -111,8 +111,7 @@ internal static class DateTimeExtensions
     public static DateTime Set(this DateTime dateTime,
         int? year = null, int? month = null, int? day = null,
         int? hour = null, int? minute = null, int? second = null)
-    {
-        return new DateTime(
+        => new DateTime(
             year ?? dateTime.Year,
             month ?? dateTime.Month,
             day ?? dateTime.Day,
@@ -121,5 +120,4 @@ internal static class DateTimeExtensions
             second ?? dateTime.Second,
             dateTime.Millisecond,
             dateTime.Kind);
-    }
 }

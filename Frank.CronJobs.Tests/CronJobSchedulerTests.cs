@@ -1,4 +1,4 @@
-﻿using Frank.CronJobs.Cron;
+using Frank.CronJobs.Cron;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -26,10 +26,7 @@ public class CronJobSchedulerTests
     }
 
     [Test]
-    public async Task Test()
-    {
-        await Task.Delay(5000);
-    }
+    public Task Test() => Task.Delay(5000);
     
     private class MyService(ILogger<MyService> logger) : ICronJob
     {
